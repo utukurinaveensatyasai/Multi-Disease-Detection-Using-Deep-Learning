@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Disease Detection</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrQkTyvQaGd+xw+nYB4og/7n6VlEGeYh0AcmNvYV5gogJqzqgI1RZL0dn8Cq3OZ1OyjZLqGqvUdVbNw7WA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+    <style>
+        /* (Your existing styles remain unchanged) */
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            color: #f4f9ed;
+        }
+
+        /* Navigation Bar */
+        .nav_container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #008080; /* Teal */
+            color: #fff;
+            padding: 15px 30px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo img {
+            height: 50px;
+        }
+
+        ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        ul li a:hover {
+            background: #FF6F61; /* Coral */
+            color: #fff;
+        }
+
+        .search input {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 20px;
+            outline: none;
+            width: 200px;
+            transition: width 0.3s;
+        }
+
+        .search input:focus {
+            width: 250px;
+        }
+
+        /* Main Section */
+        .main_container {
+            min-height: 100vh;
+            color: #fff;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+                        url('https://images.unsplash.com/photo-1581091870620-3f3428dc05f0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 80px; /* To prevent overlap with fixed navbar */
+        }
+
+        .content {
+            text-align: center;
+            max-width: 800px;
+            padding: 30px;
+            background: rgba(32, 178, 170, 0.8); /* Light Blue with transparency */
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .content:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+        }
+
+        .content h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 48px;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease-out;
+            color: #FFFFFF;
+        }
+
+        .content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            animation: fadeInUp 1s ease-out;
+            color: #FFFFFF;
+        }
+
+        button {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            background: #FF6F61; /* Coral */
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        button:hover {
+            background: #FF8F80; /* Lighter Coral */
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav_container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            ul {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            ul li {
+                width: 100%;
+                text-align: left;
+            }
+
+            .search {
+                width: 100%;
+                margin-top: 10px;
+            }
+
+            .main_container {
+                padding-top: 100px;
+            }
+
+            .content h1 {
+                font-size: 36px;
+            }
+
+            .content p {
+                font-size: 16px;
+            }
+
+            button {
+                width: 100%;
+                padding: 12px 0;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="nav_container">
+        <div class="logo">
+            <img src="https://cdn-icons-png.flaticon.com/512/2583/2583511.png" alt="Logo">
+        </div>
+        <div class="menu">
+            <ul>
+                <li><a href="{{ url_for('home') }}">Home</a></li>
+                <li><a href="{{ url_for('login') }}">Sign-In</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('contact') }}">Contact</a></li>
+            </ul>
+        </div>
+        <div class="search">
+            <input type="text" placeholder="Search...">
+        </div>
+    </div>
+
+
+    <!-- Main Section -->
+    <section>
+        <div class="main_container">
+            <div class="content">
+                <h1>AI-Powered Multi-Disease Detection</h1>
+                <p>Utilizing advanced artificial intelligence to provide accurate and early detection of various diseases. Enhance your health monitoring with our state-of-the-art technology.</p>
+                <button><i class="fas fa-rocket"></i> <a href="{{ url_for('login') }}">Get Started</a></button>
+            </div>
+        </div>
+    </section>
+    <div id="google_translate_element"></div>
+
+    <script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
+    </script>
+    <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+</body>
+</html>

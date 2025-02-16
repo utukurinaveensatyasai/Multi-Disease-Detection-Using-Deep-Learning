@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Disease Detection</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrQkTyvQaGd+xw+nYB4og/7n6VlEGeYh0AcmNvYV5gogJqzqgI1RZL0dn8Cq3OZ1OyjZLqGqvUdVbNw7WA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-color: #F5F5F5;
+            color: #2F4F4F;
+            line-height: 1.6;
+        }
+
+        /* Headings */
+        h1, p {
+            text-align: center;
+        }
+
+        h1 {
+            color: #FFFFFF;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-family: 'Poppins', sans-serif;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h2 {
+            color: #2F4F4F;
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        /* Page Wrapper */
+        .page-wrapper {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Navigation Wrapper */
+        .nav-wrapper {
+            width: 100%;
+            position: sticky;
+            top: 0;
+            background-color: #fff;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        /* Gradient Bar */
+        .grad-bar {
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(-45deg, #EE7752, #E73C7E, #23A6D5, #23D5AB);
+            background-size: 400% 400%;
+            animation: gradbar 15s ease infinite;
+        }
+
+        /* Navigation Bar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+        }
+
+        .navbar img {
+            height: 40px;
+            width: auto;
+        }
+
+        .navbar ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-item a {
+            color: #2F4F4F;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .nav-item a:hover {
+            color: #FF6F61; /* Coral */
+        }
+
+        /* Search Function */
+        #search-icon {
+            font-size: 1rem;
+            color: #2F4F4F;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        #search-icon:hover {
+            color: #FF6F61; /* Coral */
+        }
+
+        .search-input {
+            position: absolute;
+            top: 60px;
+            right: 30px;
+            width: 0;
+            opacity: 0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 20px;
+            transition: width 0.5s ease, opacity 0.5s ease;
+            overflow: hidden;
+        }
+
+        .search-active {
+            width: 200px;
+            opacity: 1;
+        }
+
+        /* Headline Section */
+        .headline {
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), 
+                        url('https://images.unsplash.com/photo-1435224668334-0f82ec57b605?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDd8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        /* Features Section */
+        .features {
+            width: 100%;
+            background-color: #F1F1F1;
+            display: flex;
+            flex-wrap: wrap;
+            padding: 50px 20px;
+            justify-content: space-around;
+        }
+
+        .feature-container {
+            flex: 1 1 30%;
+            max-width: 30%;
+            margin: 20px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+        }
+
+        .feature-container img {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 15px auto;
+            display: block;
+        }
+
+        .feature-container p {
+            color: #2F4F4F;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        /* Mobile Menu & Animation */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle .bar {
+            width: 25px;
+            height: 3px;
+            background-color: #2F4F4F;
+            margin: 4px 0;
+            transition: all 0.3s ease;
+        }
+
+        /* Mobile Navigation */
+        @media only screen and (max-width: 768px) {
+            .navbar ul {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background-color: #fff;
+                flex-direction: column;
+                align-items: center;
+                justify-content: start;
+                padding-top: 20px;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+                z-index: 999;
+            }
+
+            .navbar ul.active {
+                transform: translateX(0);
+            }
+
+            .navbar ul li {
+                margin: 20px 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .menu-toggle.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            /* Adjust Features Section */
+            .feature-container {
+                max-width: 80%;
+            }
+
+            /* Hide Search on Mobile */
+            #search-icon {
+                display: none;
+            }
+
+            .search-input {
+                display: none;
+            }
+        }
+
+        /* Animations */
+        @keyframes gradbar {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+    
+    <!-- JavaScript (Using Vanilla JS instead of jQuery for better performance and to avoid missing dependencies) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchIcon = document.getElementById('search-icon');
+            const searchInput = document.querySelector('.search-input');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navbarUl = document.querySelector('.navbar ul');
+
+            // Toggle Search Input
+            searchIcon.addEventListener('click', function() {
+                searchInput.classList.toggle('search-active');
+            });
+
+            // Toggle Mobile Menu
+            menuToggle.addEventListener('click', function() {
+                navbarUl.classList.toggle('active');
+                menuToggle.classList.toggle('active');
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="page-wrapper">
+        <!-- Navigation Wrapper -->
+        <div class="nav-wrapper">
+            <div class="grad-bar"></div>
+            <nav class="navbar">
+                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c8/Bluestar_%28bus_company%29_logo.svg/1280px-Bluestar_%28bus_company%29_logo.svg.png" alt="Company Logo">
+                
+                <!-- Mobile Menu Toggle -->
+                <div class="menu-toggle">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                
+                <ul>
+                    <li class="nav-item"><a href="/">Home</a></li>
+                    <li class="nav-item"><a href="/prediction">Prediction</a></li>
+                    <li class="nav-item"><a href="/about">About</a></li>
+                    <li class="nav-item"><a href="/contact-us">Contact</a></li>
+                    <li class="nav-item"><a href="/p1">Model</a></li>
+                    <li>
+                        <i class="fas fa-search" id="search-icon"></i>
+                        <input class="search-input" type="text" placeholder="Search..">
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Headline Section -->
+        <section class="headline">
+            <h1>AI-Powered Multi Disease Detection</h1>
+            <p>Utilizing advanced artificial intelligence to provide accurate and early detection of lung diseases. Enhance your health monitoring with our state-of-the-art technology.</p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <div class="feature-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/3063/3063454.png" alt="Feature 1">
+                <h2>Early Detection</h2>
+                <p>Detect  diseases at an early stage with our cutting-edge AI algorithms, ensuring timely intervention and better health outcomes.</p>
+            </div>
+            <div class="feature-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png" alt="Feature 2">
+                <h2>Accurate Analysis</h2>
+                <p>Our system offers precise analysis of lung scans, minimizing errors and providing reliable results for both patients and healthcare professionals.</p>
+            </div>
+            <div class="feature-container">
+                <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Feature 3">
+                <h2>User-Friendly Interface</h2>
+                <p>Experience a seamless and intuitive interface designed for ease of use, making lung disease detection accessible to everyone.</p>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

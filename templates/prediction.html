@@ -1,0 +1,217 @@
+{% include 'nav.html' %}
+<br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Multi Disease Detection - Dynamic Image Rendering</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" 
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" 
+          crossorigin="anonymous">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" 
+          integrity="sha512-Fo3rlrQkTyvQaGd+xw+nYB4og/7n6VlEGeYh0AcmNvYV5gogJqzqgI1RZL0dn8Cq3OZ1OyjZLqGqvUdVbNw7WA==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        body {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+            background-color: #F5F5F5; /* Fallback color */
+            color: #2F4F4F;
+            line-height: 1.6;
+        }
+
+        /* Center Alignment */
+        .center-content {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Form Styling */
+        .upload-form {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            max-width: 500px;
+            margin: 50px auto;
+        }
+        
+        .upload-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2F4F4F;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .upload-form input[type="file"] {
+            display: block;
+            margin: 0 auto 20px auto;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .upload-form input[type="submit"] {
+            background-color: #FF6F61; /* Coral */
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .upload-form input[type="submit"]:hover {
+            background-color: #FF8F80; /* Lighter Coral */
+        }
+        
+        /* Image Display */
+        .uploaded-image {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .uploaded-image img {
+            border-radius: 50%;
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .uploaded-image p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            color: #2F4F4F;
+        }
+        
+        /* Result Table */
+        .result-table {
+            margin: 50px auto;
+            max-width: 800px;
+        }
+        
+        .result-table h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #2F4F4F;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .result-table table {
+            width: 100%;
+        }
+
+        /* Responsive Adjustments */
+        @media only screen and (max-width: 768px) {
+            .upload-form, .result-table {
+                margin: 20px;
+            }
+            
+            .uploaded-image img {
+                width: 200px;
+                height: 200px;
+            }
+        }
+    </style>
+    
+    <!-- JavaScript (Using Vanilla JS instead of jQuery for better performance and to avoid missing dependencies) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchIcon = document.getElementById('search-icon');
+            const searchInput = document.querySelector('.search-input');
+            const menuToggle = document.querySelector('.menu-toggle');
+            const navbarUl = document.querySelector('.navbar ul');
+
+            // Toggle Search Input
+            if (searchIcon) {
+                searchIcon.addEventListener('click', function() {
+                    searchInput.classList.toggle('search-active');
+                });
+            }
+
+            // Toggle Mobile Menu
+            if (menuToggle) {
+                menuToggle.addEventListener('click', function() {
+                    navbarUl.classList.toggle('active');
+                    menuToggle.classList.toggle('active');
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <center>
+        <!-- Upload Form -->
+        <div class="upload-form">
+            <h2>Upload XRAY to Scan Image</h2>
+            <form action="{{ url_for('upload_file') }}" enctype="multipart/form-data" method="POST">
+                <input name="img" type="file" accept="image/*" required/>
+                <input type="submit" value="Upload"/>
+            </form>
+        </div>
+        
+        {% if img %}
+        <!-- Uploaded Image Display -->
+        <div class="uploaded-image">
+            <h1>Uploaded Image</h1>
+            <img src="{{ img }}" alt="Uploaded Lung Scan Image">
+            <p>Image Name: {{ f }}</p>
+        </div>
+        
+        <!-- Result Table -->
+        <div class="result-table">
+            <h1>Result Table</h1>
+            <table class="table table-dark table-striped">
+                <thead>
+                    <tr>
+                        <th>Condition</th>
+                        <th>Description</th>
+                        <th>Effects</th>
+                        <th>Stage of Disease</th>
+                        <th>Remedies</th> <!-- New Column Added -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ c }}</td>
+                        <td>{{ dis }}</td>
+                        <td>{{ e }}</td>
+                        <td>{{ level }}</td>
+                        <td>{{ r }}</td> <!-- Display the Disease Stage -->
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <!-- Placeholder for No Image Uploaded -->
+        <div class="uploaded-image">
+            <h1>Uploaded Image will appear here...</h1>
+        </div>
+        {% endif %}
+    </center>
+</body>
+</html>
