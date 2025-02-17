@@ -84,6 +84,8 @@ multi-disease-detection/
 - Deploy the model on cloud platforms (AWS/GCP) for scalability.
 - Extend support for more diseases and datasets.
 - Implement real-time detection for healthcare applications.
+## 🎬 Live Demo
+🚀 Try the live demo here: [Multi-Disease Detection Web App](https://multi-disease-detection-using-deep.onrender.com)
 
 ## 🤝 Contributing
 We welcome contributions! Feel free to fork the repository, create a branch, and submit a pull request.
