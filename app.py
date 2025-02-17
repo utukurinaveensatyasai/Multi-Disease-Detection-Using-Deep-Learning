@@ -136,5 +136,6 @@ def upload_file():
 
     return render_template('prediction.html')
 
-if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Get port from environment variable
+    app.run(host="0.0.0.0", port=port, debug=True)
